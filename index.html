@@ -4,18 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simple Form with MongoDB</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  form {
+    width: 300px;
+  }
+  #errorMessage {
+    color: red;
+  }
+</style>
 </head>
 <body>
 
-<h2>Submit Target Data</h2>
+<h2>Submit Data to MongoDB</h2>
 
 <form id="myForm">
-  <label for="name">Student Number:</label><br>
+  <label for="name">Name:</label><br>
   <input type="text" id="name" name="name"><br><br>
   <input type="submit" value="Submit">
 </form>
 
-<p id="message"></p>
+<p id="errorMessage"></p>
 
 <script>
 document.getElementById("myForm").addEventListener("submit", function(event) {
@@ -33,10 +49,15 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
   })
   .then(response => response.json())
   .then(data => {
-    document.getElementById("message").textContent = data.message;
+    document.getElementById("errorMessage").textContent = '';
+    document.getElementById("errorMessage").style.display = 'none';
+    document.getElementById("myForm").reset(); // Reset form fields
+    alert(data.message);
   })
   .catch(error => {
     console.error("Error:", error);
+    document.getElementById("errorMessage").textContent = 'Error submitting data';
+    document.getElementById("errorMessage").style.display = 'block';
   });
 });
 </script>
