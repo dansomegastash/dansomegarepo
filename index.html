@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Form with MongoDB</title>
+</head>
+<body>
+
+<h2>Submit Data to MongoDB</h2>
+
+<form id="myForm">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p id="message"></p>
+
+<script>
+document.getElementById("myForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  var name = document.getElementById("name").value;
+
+  // Send data to MongoDB
+  fetch("/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name: name })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("message").textContent = data.message;
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
+});
+</script>
+
+</body>
+</html>
