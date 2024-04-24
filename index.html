@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dan's omega servive</title>
+<title>Dan's omega service</title>
 <style>
   body, html {
     height: 100%;
@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<h2>Submit Target Data</h2>
+<h2>Submit Targeting Data</h2>
 
 <form id="myForm">
   <label for="name">Name:</label><br>
@@ -39,25 +39,32 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
 
   var name = document.getElementById("name").value;
 
-  // Send data to MongoDB
-  fetch("/submit", {
+  // Construct the message payload for Discord
+  var discordPayload = {
+    content: `New submission:\nName: ${name}`
+  };
+
+  // Send data to Discord webhook
+  fetch("YOUR_DISCORD_WEBHOOK_URL", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ name: name })
+    body: JSON.stringify(discordPayload)
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to send data to Discord');
+    }
+    return response.json();
+  })
   .then(data => {
-    document.getElementById("errorMessage").textContent = '';
-    document.getElementById("errorMessage").style.display = 'none';
+    alert("Data submitted successfully");
     document.getElementById("myForm").reset(); // Reset form fields
-    alert(data.message);
   })
   .catch(error => {
     console.error("Error:", error);
     document.getElementById("errorMessage").textContent = 'Error submitting data';
-    document.getElementById("errorMessage").style.display = 'block';
   });
 });
 </script>
