@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dan's Omega Service</title>
+<title>Simple Form with Discord Webhook</title>
 <style>
   body, html {
     height: 100%;
@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<h2>Submit Target Data to Discord</h2>
+<h2>Submit Data to Discord</h2>
 
 <form id="myForm">
   <label for="name">Name:</label><br>
@@ -54,7 +54,7 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
   if(name.toLowerCase() === "danisgod") {
     console.log("You invoked the power of Dan!");
     alert("You invoked the power of Dan!");
-    document.getElementById("outputBox").innerText = "You invoked the power of Dan!";
+    document.getElementById("outputBox").innerText = "ERROR - You invoked the power of Dan!";
     document.getElementById("name").value = ""; // Clear the input field
     return; // Exit the function early
   }
@@ -76,11 +76,22 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
     if (!response.ok) {
       throw new Error('Failed to send data to Discord');
     }
-    return response.json();
+    // Check if response has data
+    if (response.status === 204) {
+      // No Content
+      return null;
+    } else {
+      // Parse JSON response
+      return response.json();
+    }
   })
   .then(data => {
-    alert("Data submitted successfully");
-    document.getElementById("myForm").reset(); // Reset form fields
+    if (data) {
+      alert("Data submitted successfully");
+      document.getElementById("myForm").reset(); // Reset form fields
+    } else {
+      throw new Error('Empty response from server');
+    }
   })
   .catch(error => {
     console.error("Error sending data to Discord:", error);
