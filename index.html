@@ -79,7 +79,7 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
     // Check if response has data
     if (response.status === 204) {
       // No Content
-      return null;
+      throw new Error('Empty response from server');
     } else {
       // Parse JSON response
       return response.json();
