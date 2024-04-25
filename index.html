@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Form with Discord Webhook</title>
+<title>Dan's Omega Service</title>
 <style>
   body, html {
     height: 100%;
@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<h2>Submit Data to Discord</h2>
+<h2>Submit Target Data to Discord</h2>
 
 <form id="myForm">
   <label for="name">Name:</label><br>
@@ -54,7 +54,7 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
   if(name.toLowerCase() === "danisgod") {
     console.log("You invoked the power of Dan!");
     alert("You invoked the power of Dan!");
-    document.getElementById("outputBox").innerText = "ERROR - You invoked the power of Dan!";
+    document.getElementById("outputBox").innerText = "You invoked the power of Dan!";
     document.getElementById("name").value = ""; // Clear the input field
     return; // Exit the function early
   }
