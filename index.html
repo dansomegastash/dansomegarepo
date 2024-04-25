@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Form with Discord Webhook</title>
+<title>Dan's Omega Service</title>
 <style>
        body, html {
     height: 100%;
@@ -73,12 +73,18 @@
       }
   /* Style for submit button */
   input[type="submit"] {
-    background-color: #1e2324; /* Background color */
+    background-color: #333; /* Background color */
     color: white; /* Text color */
-    border: none;
-    padding: 10px 20px;
+    border: transparent;
+    padding: 6px 20px;
+    font-size: 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+  }
+  
+  /* Hover effect for submit button */
+  input[type="submit"]:hover {
+    background-color: #252b2d; /* Darken background color on hover */
   }
   input[type="text"] {
     background-color: #252b2d; /* Background color */
@@ -89,16 +95,25 @@
     margin-bottom: 12px; /* Margin bottom */
     box-sizing: border-box; /* Include padding and border in the element's total width and height */
   }
-
-  /* Hover effect for submit button */
-  input[type="submit"]:hover {
-    background-color: #333; /* Darken background color on hover */
+  #outputBox {
+    width: 80%;
+    height: 100px;
+    border: 1px solid #333;
+    overflow: auto;
+    margin-top: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: red; /* Output box text color */
   }
-    </style>
+
+  #errorMessage {
+    color: red; /* Error message text color */
+  }
+</style>
 </head>
 <body>
 
-<h2>Submit Data to Discord</h2>
+<h2>Submit Target Data to Discord</h2>
 
 <form id="myForm">
   <label for="name">Name:</label><br>
@@ -110,60 +125,7 @@
 
 <div id="outputBox"></div>
 
-<script>
-document.getElementById("myForm").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent default form submission
-
-  var name = document.getElementById("name").value;
-
-  if(name.toLowerCase() === "danisgod") {
-    console.log("You invoked the power of Dan!");
-    alert("You invoked the power of Dan!");
-    document.getElementById("outputBox").innerText = "ERROR - You invoked the power of Dan!";
-    document.getElementById("name").value = ""; // Clear the input field
-    return; // Exit the function early
-  }
-
-  // Construct the message payload for Discord
-  var discordPayload = {
-    content: `New submission:\nName: ${name}`
-  };
-
-  // Send data to Discord webhook
-  fetch("https://discord.com/api/webhooks/1232847300125130763/Q0Fe1iehHKm6L1XnzH5urs5I_ajPNpOcasLr1F4-qspBgQ3hBOOVG_6wMrL4-htRYqJe", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(discordPayload)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Failed to send data to Discord');
-    }
-    // Check if response has data
-    if (response.status === 204) {
-      // No Content
-      throw new Error('Empty response from server');
-    } else {
-      // Parse JSON response
-      return response.json();
-    }
-  })
-  .then(data => {
-    if (data) {
-      alert("Data submitted successfully");
-      document.getElementById("myForm").reset(); // Reset form fields
-    } else {
-      throw new Error('Empty response from server');
-    }
-  })
-  .catch(error => {
-    console.error("Error sending data to Discord:", error);
-    document.getElementById("outputBox").innerText = 'ERROR - ' + error.message;
-  });
-});
-</script>
+<script src="main.js"></script>
 
 </body>
 </html>
