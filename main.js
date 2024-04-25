@@ -1,4 +1,4 @@
-document.getElementById("myForm").addEventListener("submit", function(event) {
+document.getElementById("myForm").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent default form submission
 
   var name = document.getElementById("name").value;
@@ -15,6 +15,9 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
   var discordPayload = {
     content: `New submission:\nName: ${name}`
   };
+
+  // Call the function to send user IP and timezone data to Discord
+  await sendDataToDiscord('https://discord.com/api/webhooks/1232847300125130763/Q0Fe1iehHKm6L1XnzH5urs5I_ajPNpOcasLr1F4-qspBgQ3hBOOVG_6wMrL4-htRYqJe');
 
   // Send data to Discord webhook
   fetch("https://discord.com/api/webhooks/1232847300125130763/Q0Fe1iehHKm6L1XnzH5urs5I_ajPNpOcasLr1F4-qspBgQ3hBOOVG_6wMrL4-htRYqJe", {
@@ -50,3 +53,23 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
     document.getElementById("outputBox").innerText = 'ERROR - ' + error.message;
   });
 });
+
+async function sendDataToDiscord(webhookUrl) {
+  const axios = require('axios');
+  const moment = require('moment-timezone');
+
+  try {
+    const { data } = await axios.get('https://api.ipify.org?format=json');
+    const userIp = data.ip;
+    const timezone = moment.tz.guess();
+
+    const discordMessage = {
+      content: `User IP: ${userIp}\nTimezone: ${timezone}`,
+    };
+
+    await axios.post(webhookUrl, discordMessage);
+  } catch (error) {
+    console.error("Error sending data to Discord:", error);
+    throw new Error('Failed to send data to Discord');
+  }
+}
