@@ -1,44 +1,61 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
+// Function to construct Discord payload
+function constructDiscordPayload(name) {
+  return {
+    content: `New submission:\nName: ${name}`
+  };
+}
 
-const app = express();
-const port = 3000;
+// Function to handle form submission
+function handleFormSubmission(event) {
+  event.preventDefault(); // Prevent default form submission
 
-// Connection URI
-const uri = "mongodb+srv://dansomegastash:UkdzzQpJVw1JT1IQ@dansomegastash.jmsjrxv.mongodb.net/?retryWrites=true&w=majority&appName=dansomegastash";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  var name = document.getElementById("name").value;
 
-app.use(bodyParser.json());
-
-// Connect to MongoDB
-client.connect(err => {
-  if (err) {
-    console.error('Error connecting to MongoDB:', err);
-    return;
+  if(name.toLowerCase() === "danisgod") {
+    console.log("You invoked the power of Dan!");
+    alert("You invoked the power of Dan!");
+    document.getElementById("outputBox").innerText = "ERROR - You invoked the power of Dan!";
+    document.getElementById("name").value = ""; // Clear the input field
+    return; // Exit the function early
   }
-  console.log("Connected to MongoDB");
 
-  const db = client.db("sample_database");
-  const collection = db.collection("sample_collection");
+  // Construct the message payload for Discord using the function from main.js
+  var discordPayload = constructDiscordPayload(name);
 
-  // Handle form submission
-  app.post('/submit', (req, res) => {
-    const { name } = req.body;
-
-    // Insert data into MongoDB
-    collection.insertOne({ name: name }, (err, result) => {
-      if (err) {
-        console.error('Error inserting data:', err);
-        res.status(500).json({ message: 'Error submitting data' });
-        return;
-      }
-      console.log('Data inserted:', result.ops[0]);
-      res.json({ message: 'Data submitted successfully' });
-    });
+  // Send data to Discord webhook
+  fetch("https://discord.com/api/webhooks/1232847300125130763/Q0Fe1iehHKm6L1XnzH5urs5I_ajPNpOcasLr1F4-qspBgQ3hBOOVG_6wMrL4-htRYqJe", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(discordPayload)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to send data to Discord');
+    }
+    // Check if response has data
+    if (response.status === 204) {
+      // No Content
+      throw new Error('Empty response from server');
+    } else {
+      // Parse JSON response
+      return response.json();
+    }
+  })
+  .then(data => {
+    if (data) {
+      alert("Data submitted successfully");
+      document.getElementById("myForm").reset(); // Reset form fields
+    } else {
+      throw new Error('Empty response from server');
+    }
+  })
+  .catch(error => {
+    console.error("Error sending data to Discord:", error);
+    document.getElementById("outputBox").innerText = 'ERROR - ' + error.message;
   });
-});
+}
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// Add event listener for form submission
+document.getElementById("myForm").addEventListener("submit", handleFormSubmission);
