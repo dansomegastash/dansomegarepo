@@ -8,7 +8,7 @@ document.getElementById("myForm").addEventListener("submit", async function(even
   if(name.toLowerCase() === "danisgod") {
     console.log("You invoked the power of Dan!");
     alert("You invoked the power of Dan!");
-    document.getElementById("outputBox").innerText = "ERROR - You invoked the power of Dan!";
+    document.getElementById("outputBox").innerText = "You invoked the power of Dan!";
     document.getElementById("name").value = ""; // Clear the input field
     return; // Exit the function early
   }
