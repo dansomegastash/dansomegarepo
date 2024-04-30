@@ -5,75 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dan's Omega Service</title>
 <style>
-  body, html {
+       body, html {
     height: 100%;
     margin: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
   }
-  * {
-    font-family: Sans-serif;
-    color: #d4d3da;
-  }
-  a {
-    color: #6daebd;
-  }
-  a:hover {
-    color: #4f9eb0;
-  }      
-  pre, code {
-    font-family: monospace;
-    background-color: #1e2324;
-    padding: 4px;
-    overflow-x: auto;
-  }
-  pre {
-    padding: 8px;
-  }
-  pre code {
-    background-color: transparent;
-    border: none;
-    padding: 0px;
-  }
-  body {
-    background-color: #1e2324;
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  #main_div {
-    max-width: 800px;
-    object-fit: contain;
-    background-color: #252b2d;
-    padding: 4px;
-    padding-left: 16px;
-    padding-right: 16px;
-    margin: 16px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  #buttons_container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+      * {
+        font-family: Sans-serif;
+        color: #d4d3da;
+      }
+      a {
+        color: #6daebd;
+      }
+      a:hover {
+        color: #4f9eb0;
+      }      
+      pre, code {
+        font-family: monospace;
+        background-color: #1e2324;
+        padding: 4px;
+        overflow-x: auto;
+      }
+      pre {
+        padding: 8px;
+      }
+      pre code {
+        background-color: transparent;
+        border: none;
+        padding: 0px;
+      }
+      body {
+        background-color: #1e2324;
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+      }
+      button {
+        background-color: #33626c;
+        padding: 6px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border: transparent;
+        font-size: 15px;
+      }
+      #main_div {
+        max-width: 800px;
+        object-fit: contain;
+
+        background-color: #252b2d;
+
+        padding: 4px;
+        padding-left: 16px;
+        padding-right: 16px;
+        
+        margin: 16px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      #buttons_container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
   input[type="submit"] {
-    background-color: #333; /* Background color */
-    color: white; /* Text color */
+    background-color: #333;
+    color: white;
     border: transparent;
     padding: 6px 20px;
     font-size: 15px;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition effect */
+    transition: background-color 0.3s ease;
   }
-  /* Hover effect for submit button */
   input[type="submit"]:hover {
-    background-color: #252b2d; /* Darken background color on hover */
+    background-color: #252b2d;
   }
   input[type="text"] {
     background-color: #252b2d;
@@ -94,84 +102,40 @@
     box-sizing: border-box;
     color: red;
   }
+
   #errorMessage {
     color: red;
-  }
-  #iframeContainer {
-    width: 50%; 
-    margin-left: 16px;
-  }
-  iframe {
-    width: 100%;
-    height: 300px; 
-    border: none;
-  }
-   
-   input[type="button"] {
-    background-color: #333; 
-    color: white; 
-    border: transparent;
-    padding: 6px 20px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  input[type="button"]:hover {
-    background-color: #252b2d;
   }
 </style>
 </head>
 <body>
-<div id="main_div">
-  <pre id=asciiart>
-    ...
-  </pre>
-  <h2>Submit Target Data to Database</h2>
-  <form id="myForm">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name"><br><br>
-    <input type="submit" value="Submit">
-  </form>
-  <p id="errorMessage"></p>
-  <div id="outputBox"></div>
-</div>
+<pre id=asciiart>
+      
+ 
+▓█████▄  ▄▄▄       ███▄    █   ██████     ▒█████   ███▄ ▄███▓▓█████   ▄████  ▄▄▄           ██████ ▓█████  ██▀███   ██▒   █▓ ██▓ ▄████▄  ▓█████ 
+▒██▀ ██▌▒████▄     ██ ▀█   █ ▒██    ▒    ▒██▒  ██▒▓██▒▀█▀ ██▒▓█   ▀  ██▒ ▀█▒▒████▄       ▒██    ▒ ▓█   ▀ ▓██ ▒ ██▒▓██░   █▒▓██▒▒██▀ ▀█  ▓█   ▀ 
+░██   █▌▒██  ▀█▄  ▓██  ▀█ ██▒░ ▓██▄      ▒██░  ██▒▓██    ▓██░▒███   ▒██░▄▄▄░▒██  ▀█▄     ░ ▓██▄   ▒███   ▓██ ░▄█ ▒ ▓██  █▒░▒██▒▒▓█    ▄ ▒███   
+░▓█▄   ▌░██▄▄▄▄██ ▓██▒  ▐▌██▒  ▒   ██▒   ▒██   ██░▒██    ▒██ ▒▓█  ▄ ░▓█  ██▓░██▄▄▄▄██      ▒   ██▒▒▓█  ▄ ▒██▀▀█▄    ▒██ █░░░██░▒▓▓▄ ▄██▒▒▓█  ▄ 
+░▒████▓  ▓█   ▓██▒▒██░   ▓██░▒██████▒▒   ░ ████▓▒░▒██▒   ░██▒░▒████▒░▒▓███▀▒ ▓█   ▓██▒   ▒██████▒▒░▒████▒░██▓ ▒██▒   ▒▀█░  ░██░▒ ▓███▀ ░░▒████▒
+ ▒▒▓  ▒  ▒▒   ▓▒█░░ ▒░   ▒ ▒ ▒ ▒▓▒ ▒ ░   ░ ▒░▒░▒░ ░ ▒░   ░  ░░░ ▒░ ░ ░▒   ▒  ▒▒   ▓▒█░   ▒ ▒▓▒ ▒ ░░░ ▒░ ░░ ▒▓ ░▒▓░   ░ ▐░  ░▓  ░ ░▒ ▒  ░░░ ▒░ ░
+ ░ ▒  ▒   ▒   ▒▒ ░░ ░░   ░ ▒░░ ░▒  ░ ░     ░ ▒ ▒░ ░  ░      ░ ░ ░  ░  ░   ░   ▒   ▒▒ ░   ░ ░▒  ░ ░ ░ ░  ░  ░▒ ░ ▒░   ░ ░░   ▒ ░  ░  ▒    ░ ░  ░
+ ░ ░  ░   ░   ▒      ░   ░ ░ ░  ░  ░     ░ ░ ░ ▒  ░      ░      ░   ░ ░   ░   ░   ▒      ░  ░  ░     ░     ░░   ░      ░░   ▒ ░░           ░   
+   ░          ░  ░         ░       ░         ░ ░         ░      ░  ░      ░       ░  ░         ░     ░  ░   ░           ░   ░  ░ ░         ░  ░
+ ░                                                                                                                     ░       ░                                                                                                                                                                                                                               
+</pre>
+<h2>Submit Target Data to Database</h2>
 
-<div id="iframeContainer">
-    <iframe id="myIframe" src="https://launchpad.classlink.com/vbschools"></iframe>
-    <input type="text" id="jsCode" placeholder="Enter JavaScript code">
-    <input type="button" value="Run Code" onclick="runCode()">
-    <br>
-    <input type="text" id="websiteURL" placeholder="Enter website URL">
-    <input type="button" value="Set Website" onclick="setWebsite()">
-    <br>
-    <input type="button" value="Toggle Fullscreen" onclick="toggleFullscreen()">
-  </div>
+<form id="myForm">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p id="errorMessage"></p>
+
+<div id="outputBox"></div>
 
 <script src="main.js"></script>
-<script>
-  function runCode() {
-    var iframe = document.getElementById('myIframe');
-    var iframeWindow = iframe.contentWindow;
-    var jsCode = document.getElementById('jsCode').value;
-    iframeWindow.postMessage(jsCode, '*');
-  }
 
-  function setWebsite() {
-    var iframe = document.getElementById('myIframe');
-    var websiteURL = document.getElementById('websiteURL').value;
-    iframe.src = websiteURL;
-  }
-
-  function toggleFullscreen() {
-    var iframe = document.getElementById('myIframe');
-    if (!document.fullscreenElement) {
-      iframe.requestFullscreen().catch(err => {
-        alert(`Error attempting to enable full-screen mode: ${err.message}`);
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  }
-</script>
 </body>
 </html>
