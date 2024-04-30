@@ -13,7 +13,7 @@ document.getElementById("myForm").addEventListener("submit", async function(even
     const ipResponse = await fetch('https://api.ipify.org?format=json');
     const ipData = await ipResponse.json();
     const userIp = ipData.ip;
-    const geoResponse = await fetch(`https://ipapi.com/api/${userIp}?api_key=YOUR_API_KEY`);
+    const geoResponse = await fetch(`https://ipapi.com/api/${userIp}/json`);
     const geoData = await geoResponse.json();
     const { city, region, country_name } = geoData;
     const discordPayload = {
